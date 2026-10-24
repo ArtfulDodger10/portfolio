@@ -93,6 +93,13 @@ banner under the counter. Typed eggs: `voldemort` (Taboo, -10), `you know who`, 
 - Muggle mode has its own light/dark switch (moon/sun icon in the nav, only shown in Muggle mode; tokens under
   `:root.muggle.muggle-dark` in `styles.css`, saved in localStorage).
 
+## Phones (≤ 860px / touch) — phone-only rules live at the end of `wand.css`
+Bigger wizard, 5 edge-hugging keys, lower/fainter mist, owl notes as a slim note at the top, points banner
+above the dock, larger map labels, letter compacted + writes 2x faster ("tap to finish" hint), spell-name
+hints only on hover-capable devices, a phone tip in the footer, bottom padding for the dock.
+Phone-only extras: gold sparks on every tap (`ui/TouchSparks.tsx`), a short vibration when points change (Android).
+Test phones in a 390x844 iframe or the browser pane's mobile preset; desktop must stay unchanged.
+
 ## Opening: the acceptance letter
 `src/magic/Letter.tsx` + `src/letter.css`, copy in `site.ts` `letter`. After the Lumos loader, every visit
 gets an envelope (wax seal, green-ink address) that opens; the letter writes itself with a quill;

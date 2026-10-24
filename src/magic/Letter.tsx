@@ -40,7 +40,8 @@ export function AcceptanceLetter({ onEnter }: { onEnter: () => void }) {
     }
     const flat = PARAS.join('')
     const prev = flat[written - 1] ?? ''
-    const delay = /[.,:;]/.test(prev) ? 160 : 14 + Math.random() * 22
+    const fast = window.matchMedia('(max-width: 860px)').matches ? 0.5 : 1
+    const delay = (/[.,:;]/.test(prev) ? 160 : 14 + Math.random() * 22) * fast
     const t = setTimeout(() => setWritten((n) => n + 1), delay)
     return () => clearTimeout(t)
   }, [stage, written])
@@ -117,6 +118,7 @@ export function AcceptanceLetter({ onEnter }: { onEnter: () => void }) {
               </p>
             ))}
           </div>
+          {stage === 'writing' && <p className="acc-tap">{letter.tapHint}</p>}
           <footer className={`acc-sign ${stage === 'writing' ? '' : 'is-in'}`}>
             <p>{letter.signoff}</p>
             <p className="acc-signature">{letter.signature}</p>

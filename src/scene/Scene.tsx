@@ -39,13 +39,13 @@ function Layout({ tier, animate }: { tier: Tier; animate: boolean }) {
       {/* narrow: top quarter of the screen, rings sized to fit the width (styles.css pads the hero to match) */}
       <group
         position={wide ? [crestX, 0, 0] : [0, viewport.height * 0.24, 0]}
-        scale={wide ? crestScale : Math.min(0.55, (viewport.width * 0.46) / 3.4)}
+        scale={wide ? crestScale : Math.min(0.78, (viewport.width * 0.68) / 3.4)}
       >
         <Crest animate={animate} />
       </group>
       {/* the spellbook floats beside the Spellbook section, ~80% of the way down */}
       <FloatingBook animate={animate} position={wide ? [3.4, -0.8 * DEPTH, -2] : [0, -0.8 * DEPTH, -4]} />
-      <FlyingKeys animate={animate} count={tier.low ? 8 : 16} aspect={viewport.aspect} wide={wide} />
+      <FlyingKeys animate={animate} count={wide ? (tier.low ? 8 : 16) : 5} aspect={viewport.aspect} wide={wide} />
       <Dementors animate={animate} count={tier.low ? 3 : 5} aspect={viewport.aspect} wide={wide} />
       <Candles count={tier.low ? 60 : 150} animate={animate} />
       <Embers count={tier.low ? 600 : 2200} animate={animate} />

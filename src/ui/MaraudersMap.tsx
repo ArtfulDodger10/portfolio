@@ -131,7 +131,7 @@ export function MaraudersMap() {
             ref={(g) => {
               labels.current[i] = g
             }}
-            className="map-node"
+            className={`map-node ${i === nodes.length - 1 ? 'map-node-last' : ''} ${i === 0 ? 'map-node-first' : ''}`}
             transform={`translate(${n.x} ${n.y})`}
           >
             <circle r="9" />

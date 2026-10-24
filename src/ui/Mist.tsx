@@ -14,12 +14,13 @@ export function Mist({ low }: { low: boolean }) {
     const ctx = canvas?.getContext('2d')
     if (!canvas || !ctx) return
     const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const phone = window.matchMedia('(max-width: 860px)').matches
     let W = 0
     let H = 0
     const resize = () => {
       const dpr = Math.min(devicePixelRatio, 1.5)
       W = innerWidth
-      H = Math.round(innerHeight * 0.34)
+      H = Math.round(innerHeight * (phone ? 0.2 : 0.34))
       canvas.width = W * dpr
       canvas.height = H * dpr
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
@@ -36,7 +37,7 @@ export function Mist({ low }: { low: boolean }) {
     g.fillStyle = grad
     g.fillRect(0, 0, 128, 128)
 
-    const n = low ? 14 : 26
+    const n = phone ? 10 : low ? 14 : 26
     const puffs: Puff[] = Array.from({ length: n }, (_, i) => ({
       x: (i / n) * (W + 300) - 150,
       y: H * (0.45 + Math.random() * 0.55),
@@ -79,7 +80,7 @@ export function Mist({ low }: { low: boolean }) {
         p.oy += (ty - p.oy) * Math.min(1, dt * 4)
         const wob = calm ? 0 : Math.sin(now / 1800 + p.phase) * 8
         const s = p.r * 2
-        ctx.globalAlpha = 0.5
+        ctx.globalAlpha = phone ? 0.28 : 0.5
         ctx.drawImage(sprite, p.x + p.ox - p.r, p.y + p.oy + wob - p.r * 0.6, s, s * 0.6)
       }
       raf = requestAnimationFrame(tick)

@@ -10,7 +10,8 @@ import { DEPTH } from './state'
 
 // Screen-space anchors (-1 left edge .. 1 right edge), same idea as the crest: never behind the text column.
 const WIDE_SLOTS = [0.35, 0.8, 0.55, 0.95, 0.45]
-const NARROW_SLOTS = [-0.85, 0.85, -0.7, 0.7]
+// phones: hug the screen edges so they never cross the text
+const NARROW_SLOTS = [-1.02, 1.02, -0.96, 0.96]
 const METALS = ['#e2b75a', '#cfd6df', '#c88a4a', '#f0cf7a']
 
 function keyGeometry() {
@@ -84,7 +85,7 @@ export function FlyingKeys({ animate, count, aspect, wide }: { animate: boolean;
       b.position.set(f.x + Math.sin(a * 0.6) * 1.3, f.y + Math.sin(a * 0.9) * 0.7, f.z + Math.cos(a * 0.5) * 0.8)
       // face roughly along the direction of travel, bank into the turn
       b.rotation.set(Math.sin(a * 0.9) * 0.15, Math.cos(a * 0.6) > 0 ? 0.35 : Math.PI - 0.35, Math.cos(a * 0.6) * 0.3)
-      b.scale.setScalar(f.size * (wide ? 2.1 : 1.5))
+      b.scale.setScalar(f.size * (wide ? 2.1 : 1.0))
       b.updateMatrix()
       k.setMatrixAt(i, b.matrix)
 

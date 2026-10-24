@@ -21,6 +21,7 @@ import {
   Spellbook,
 } from './ui/Sections'
 import { Mist } from './ui/Mist'
+import { TouchSparks } from './ui/TouchSparks'
 import { WandTrail } from './ui/WandTrail'
 
 // three.js ships in its own chunk, so the text is readable before the castle loads.
@@ -128,7 +129,8 @@ function Castle({ muggle, setMuggle, webgl }: { muggle: boolean; setMuggle: (m: 
   // Click the crest (it lives in the 3D layer under the text, so the click is matched by position): Lumos
   useEffect(() => {
     const onClick = (e: globalThis.MouseEvent) => {
-      if (!crest.hover || letterOpen || caseId) return
+      const onCrest = Math.hypot(e.clientX - crest.x, e.clientY - crest.y) < crest.r * 0.75
+      if (!onCrest || letterOpen || caseId) return
       if ((e.target as Element).closest('a, button, input, .case, .cell, .parchment')) return
       crest.flashAt = performance.now() / 1000
       cast('Lumos', e, undefined, { key: 'crest', points: 5, reason: 'for lighting up the crest' })
@@ -240,6 +242,7 @@ function Castle({ muggle, setMuggle, webgl }: { muggle: boolean; setMuggle: (m: 
       )}
       {!muggle && <Mist low={tier.low} />}
       {!muggle && wandOn && <WandTrail />}
+      {!muggle && !finePointer && <TouchSparks />}
       {!muggle && <div className="frost" aria-hidden />}
 
       <div className={`loader ${ready ? 'is-done' : ''}`} aria-hidden>

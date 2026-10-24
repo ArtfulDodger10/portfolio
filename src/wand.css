@@ -220,3 +220,129 @@
     bottom: 12px;
   }
 }
+
+/* =====================================================================
+   Phones (and other touch screens): fixes and phone-only touches.
+   Desktop is untouched by everything below.
+   ===================================================================== */
+
+/* spell-name hints only where there is real hover (on touch they stick after a tap) */
+@media (hover: none) {
+  [data-spell]::after {
+    display: none;
+  }
+}
+
+/* footer tip: keyboard spells on computers, a phone tip on touch screens */
+.tip-touch {
+  display: none;
+}
+@media (hover: none) and (pointer: coarse) {
+  .tip-keys {
+    display: none;
+  }
+  .tip-touch {
+    display: inline;
+  }
+}
+
+@media (max-width: 860px) {
+  /* room at the bottom so the Patronus button never hides the last lines */
+  main {
+    padding-bottom: 72px;
+  }
+
+  /* owl notes: a slim note at the top instead of a card over half the screen */
+  .owl-note {
+    top: 64px;
+    bottom: auto;
+    left: 12px;
+    right: 12px;
+    max-width: none;
+    animation: owl-drop 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .owl-note .owl {
+    width: 34px;
+  }
+  .owl-letter {
+    flex: 1;
+    padding: 8px 12px 7px;
+  }
+  .owl-text {
+    font-size: 1.05rem;
+    margin: 0 0 4px;
+  }
+  /* the points banner moves down a little so the two never collide */
+  .spell-toast-wrap {
+    top: auto;
+    bottom: 76px;
+  }
+
+  /* map labels readable on a small screen */
+  .map-node text {
+    font-size: 40px;
+  }
+  .map-node circle {
+    r: 12px;
+  }
+  /* keep the end labels inside the parchment */
+  .map-node-last text {
+    text-anchor: end;
+    transform: translateX(14px);
+  }
+  .map-node-first text {
+    text-anchor: start;
+    transform: translateX(-30px);
+  }
+
+  /* the letter fits one phone screen, Alohomora always visible */
+  .acceptance {
+    padding: 16px 16px 14px;
+  }
+  .acc-head {
+    padding-bottom: 6px;
+    margin-bottom: 8px;
+  }
+  .acc-head h1 {
+    font-size: 1.3rem;
+  }
+  .acc-office {
+    font-size: 0.6rem;
+  }
+  .acc-keeper {
+    font-size: 0.75rem;
+  }
+  .acc-body p {
+    font-size: 1.15rem;
+    line-height: 1.24;
+    margin-bottom: 0.45em;
+  }
+  .acc-signature {
+    font-size: 1.4rem !important;
+  }
+  .alohomora {
+    font-size: 1.5rem;
+    padding: 4px 22px 6px;
+  }
+}
+@keyframes owl-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+.acc-tap {
+  margin: 4px 0 0;
+  text-align: center;
+  font-family: var(--display);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #7a5a2a;
+  animation: breathe 1.6s infinite;
+}
+@media (hover: hover) {
+  .acc-tap {
+    display: none;
+  }
+}

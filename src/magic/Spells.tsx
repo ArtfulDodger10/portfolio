@@ -105,6 +105,10 @@ export function SpellProvider({ quiet, children }: { quiet: boolean; children: R
       })
       if (bad) groan()
       else chime(pts >= 50)
+      // a small buzz on phones that support it (Android); silently ignored elsewhere
+      if (window.matchMedia('(pointer: coarse)').matches && 'vibrate' in navigator && soundEnabled()) {
+        navigator.vibrate(bad ? [40, 60, 40] : pts >= 50 ? [15, 40, 15, 40, 25] : 15)
+      }
     }, delay)
   }, [])
 

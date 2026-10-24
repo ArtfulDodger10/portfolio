@@ -457,6 +457,7 @@ export const letter = {
   enter: 'Alohomora',
   enterHint: 'say the spell to unlock the castle',
   skip: 'Skip the letter',
+  tapHint: 'tap the letter to finish writing',
   points: 10,
   reason: 'for accepting your letter',
 }

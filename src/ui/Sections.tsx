@@ -465,7 +465,10 @@ export function OwlPost() {
           Back to the top
         </button>
         <p className="muted small-print">
-          Psst: try typing <kbd>lumos</kbd>, <kbd>nox</kbd> or <kbd>expecto patronum</kbd> anywhere on the page.
+          <span className="tip-keys">
+            Psst: try typing <kbd>lumos</kbd>, <kbd>nox</kbd> or <kbd>expecto patronum</kbd> anywhere on the page.
+          </span>
+          <span className="tip-touch">Psst: tilt your phone, tap the wizard, and keep an eye out for the Snitch.</span>
         </p>
         <p className="muted small-print">
           Built with React Three Fiber. Fan-inspired styling; not affiliated with any film or book franchise.
