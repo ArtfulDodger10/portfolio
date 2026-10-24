@@ -1,0 +1,1581 @@
+/* =====================================================================
+   Gryffindor layer: spells, case pages, placeholders, prophet, room
+   (tokens come from styles.css)
+   ===================================================================== */
+
+/* house scarf stripe under every section title */
+.scarf {
+  height: 8px;
+  width: 140px;
+  margin-top: 14px;
+  border-radius: 2px;
+  background: repeating-linear-gradient(90deg, var(--scarlet) 0 22px, var(--gold) 22px 30px);
+  box-shadow: 0 0 18px rgba(163, 32, 42, 0.45);
+}
+
+.tower {
+  font-family: var(--display);
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 6px 14px;
+  border: 1px solid var(--card-edge);
+  border-left: 4px solid var(--scarlet);
+  border-radius: 4px;
+  background: rgba(90, 15, 20, 0.35);
+}
+:root.muggle .tower {
+  background: transparent;
+}
+
+
+/* ---- sorting hat ---- */
+.verdict {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 0 0 18px;
+}
+.hat {
+  width: 96px;
+  flex: none;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.5));
+  transform-origin: 50% 90%;
+  animation: hat-talk 4s ease-in-out infinite;
+}
+.hat-mouth {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hat-mouth 0.5s ease-in-out infinite alternate;
+}
+.verdict blockquote {
+  margin: 0;
+  font-family: var(--hand);
+  font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.7rem);
+  line-height: 1.3;
+  color: var(--gold-hi);
+}
+
+/* ---- great hall ---- */
+.timeline {
+  list-style: none;
+  padding: 0 0 0 22px;
+  margin: 0;
+  display: grid;
+  gap: 18px;
+  border-left: 2px solid var(--card-edge);
+}
+.timeline > li {
+  position: relative;
+}
+.timeline > li::before {
+  content: '';
+  position: absolute;
+  left: -33px;
+  top: 30px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--gold-hi), var(--scarlet) 70%);
+  box-shadow: 0 0 14px rgba(255, 200, 100, 0.6);
+}
+.timeline-title {
+  font-family: var(--hand);
+  font-size: 1.3rem;
+  color: var(--gold);
+  margin: 0;
+}
+.timeline h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.2em;
+}
+
+/* ---- filters ---- */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 26px;
+}
+.chip {
+  font: inherit;
+  font-family: var(--display);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--card-edge);
+  border-radius: 999px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.chip:hover,
+.chip.is-on {
+  border-color: var(--gold);
+  color: var(--gold-hi);
+  background: rgba(163, 32, 42, 0.35);
+}
+:root.muggle .chip.is-on {
+  color: #fff8e8;
+  background: var(--scarlet);
+}
+.cases.is-vanishing .case {
+  animation: vanish 0.35s forwards;
+}
+
+/* ---- case card foot ---- */
+.case-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 18px;
+  margin-top: 14px;
+}
+.case-foot .case-links {
+  margin-top: 0;
+}
+.case-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--hand);
+  font-size: 1.3rem;
+  color: var(--gold);
+  text-decoration: none;
+}
+.case-open:hover {
+  color: var(--gold-hi);
+  text-shadow: 0 0 12px rgba(255, 200, 100, 0.6);
+}
+.keyhole {
+  width: 14px;
+  height: 20px;
+  background: currentColor;
+  clip-path: polygon(30% 45%, 25% 100%, 75% 100%, 70% 45%, 85% 30%, 85% 15%, 70% 0, 30% 0, 15% 15%, 15% 30%);
+  transition: transform 0.4s;
+}
+.case-open:hover .keyhole {
+  transform: rotate(90deg);
+}
+.cases.cti {
+  margin-top: 34px;
+}
+.cases.cti .case {
+  border-left: 3px solid var(--gold);
+}
+
+/* ---- wax seals on unpublished links ---- */
+.link-sealed {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.wax {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #d4454b, #6e1015 70%);
+  box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* ---- case page ---- */
+:root.page-open body {
+  overflow: hidden;
+}
+.case-page {
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+  overflow-y: auto;
+  background:
+    radial-gradient(ellipse at 70% 0%, rgba(163, 32, 42, 0.35), transparent 60%),
+    radial-gradient(ellipse at 10% 100%, rgba(224, 179, 84, 0.15), transparent 50%),
+    rgba(7, 6, 11, 0.96);
+  animation: page-unlock 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+:root.muggle .case-page {
+  background: var(--night);
+  animation: none;
+}
+.case-page-inner {
+  width: min(980px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 90px 0 80px;
+}
+.case-page-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+.case-page-bar .stamp {
+  position: static;
+}
+.case-page h1 {
+  font-size: clamp(1.7rem, 1.2rem + 2.4vw, 3rem);
+  color: var(--gold-hi);
+}
+.case-page-codename {
+  font-family: var(--hand);
+  font-size: 1.6rem;
+  color: var(--scarlet);
+  margin: 0;
+}
+:root:not(.muggle) .case-page-codename {
+  color: #ff8a6b;
+}
+.case-page-summary {
+  font-size: 1.2em;
+  max-width: 46em;
+}
+.case-page-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: 18px;
+  margin: 26px 0;
+}
+.case-page-grid h2 {
+  font-size: 1.1rem;
+  color: var(--gold-hi);
+}
+.case-links.big .link {
+  font-size: 0.95rem;
+}
+.chain-big {
+  list-style: none;
+  padding: 0;
+  margin: 34px 0 26px;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 26px;
+}
+.chain-big li {
+  position: relative;
+  flex: 1 1 140px;
+  padding: 18px 10px 0 0;
+  font-family: var(--display);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  animation: ink-in 0.6s forwards;
+  border-top: 2px dashed var(--card-edge);
+}
+.chain-dot {
+  position: absolute;
+  top: -9px;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 14px var(--gold);
+}
+:root.muggle .chain-big li {
+  opacity: 1;
+  animation: none;
+}
+
+/* ---- brewing placeholders ---- */
+.brewing-panel {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  padding: 20px;
+  border: 1px dashed var(--card-edge);
+  border-radius: 10px;
+  background: var(--card);
+}
+.cauldron {
+  margin: 0;
+  text-align: center;
+}
+.cauldron svg {
+  width: min(220px, 70%);
+  overflow: visible;
+}
+.cauldron figcaption {
+  font-family: var(--hand);
+  font-size: 1.3rem;
+  color: var(--gold);
+}
+.bubble {
+  fill: #ffe9a8;
+  opacity: 0;
+  animation: bubble 2.2s ease-in infinite;
+}
+.steam {
+  fill: none;
+  stroke: rgba(230, 220, 255, 0.35);
+  stroke-width: 3;
+  stroke-linecap: round;
+  opacity: 0;
+  animation: steam 2.4s ease-out infinite;
+}
+.fire {
+  fill: #ff7b3a;
+  transform-origin: center bottom;
+  transform-box: fill-box;
+  animation: fire 0.35s ease-in-out infinite alternate;
+}
+.quill {
+  text-align: center;
+}
+.quill svg {
+  width: min(320px, 100%);
+  overflow: visible;
+}
+.quill-ink {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-dasharray: 420;
+  stroke-dashoffset: 420;
+  animation: write 3.2s ease-in-out infinite;
+}
+.quill-pen {
+  offset-path: path('M10 50 c 20 -20 30 10 50 -6 s 30 -8 44 4 s 26 -14 46 -2 s 30 10 48 -6 s 40 6 56 -4 s 24 -6 56 2');
+  offset-rotate: 0deg;
+  animation: quill-move 3.2s ease-in-out infinite;
+}
+.quill p {
+  font-family: var(--hand);
+  font-size: 1.2rem;
+  color: var(--ink-dim);
+  margin: 0;
+}
+
+/* invisibility cloak: the title shimmers just out of sight until hovered */
+.cloaks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+.cloaked {
+  position: relative;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px dashed rgba(58, 38, 20, 0.4);
+  overflow: hidden;
+  outline: none;
+}
+.cloaked-title {
+  display: block;
+  font-family: var(--display);
+  font-size: 0.85rem;
+  filter: blur(4px);
+  opacity: 0.55;
+  transition: filter 0.6s, opacity 0.6s;
+}
+.cloaked-hint {
+  font-family: var(--hand);
+  font-size: 1.05rem;
+  opacity: 0.8;
+}
+.cloaked::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.45) 50%, transparent 70%);
+  transform: translateX(-100%);
+  animation: shimmer 3.5s infinite;
+}
+.cloaked:hover .cloaked-title,
+.cloaked:focus .cloaked-title {
+  filter: blur(0);
+  opacity: 1;
+}
+
+/* ---- room of requirement ---- */
+.room {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 22px;
+  align-items: center;
+}
+.door {
+  position: relative;
+  height: 220px;
+  border: 3px solid var(--gold);
+  border-radius: 75px 75px 4px 4px;
+  background: #120a06;
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
+  perspective: 600px;
+}
+.door-leaf {
+  position: absolute;
+  inset: 0;
+  border-radius: 72px 72px 0 0;
+  background:
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.25) 0 2px, transparent 2px 24px),
+    linear-gradient(180deg, #6b3b1f, #3c1f0e);
+  transform-origin: left center;
+  transition: transform 1.1s cubic-bezier(0.3, 0.7, 0.2, 1);
+  z-index: 2;
+}
+.door-leaf::after {
+  content: '';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+.door-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 60%, #fff3c4, #ffb35c 40%, transparent 75%);
+  opacity: 0.2;
+  transition: opacity 1s;
+}
+.door-hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 12px;
+  z-index: 3;
+  font-family: var(--hand);
+  font-size: 1.4rem;
+  color: var(--gold-hi);
+  text-shadow: 0 0 10px #000;
+  animation: breathe 2s infinite;
+}
+.room.is-open .door-leaf {
+  transform: rotateY(-100deg);
+}
+.room.is-open .door-glow {
+  opacity: 1;
+}
+.room-text p:first-child {
+  margin-top: 0;
+}
+
+/* ---- daily prophet ---- */
+.prophet {
+  padding: clamp(14px, 3vw, 28px);
+  border-radius: 6px;
+  color: #2a1d12;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(255, 250, 235, 0.95), transparent 60%),
+    linear-gradient(170deg, #efe3c6, #d9c49a);
+  box-shadow: inset 0 0 50px rgba(90, 55, 20, 0.35), 0 20px 50px rgba(0, 0, 0, 0.45);
+}
+.prophet-mast {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  border-bottom: 3px double #2a1d12;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.prophet-mast strong {
+  font-family: var(--display);
+  font-size: clamp(1.1rem, 0.9rem + 1.2vw, 1.7rem);
+  letter-spacing: 0.04em;
+}
+.prophet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 14px;
+}
+.edition {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: inherit;
+  text-decoration: none;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(42, 29, 18, 0.25);
+}
+.edition.lead {
+  grid-column: 1 / -1;
+}
+.edition strong {
+  font-family: var(--display);
+  font-size: 1rem;
+  line-height: 1.2;
+}
+.edition.lead strong {
+  font-size: 1.4rem;
+}
+.edition:hover strong {
+  text-decoration: underline;
+}
+.edition-date {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+.edition-dek {
+  font-size: 0.95rem;
+}
+/* the "moving photograph": a sepia frame with drifting light */
+.edition-photo {
+  height: 70px;
+  border: 1px solid rgba(42, 29, 18, 0.4);
+  background:
+    radial-gradient(circle at 30% 40%, rgba(255, 245, 220, 0.9), transparent 35%),
+    linear-gradient(135deg, #8a6a43, #4a3420);
+  background-size: 200% 100%, 100% 100%;
+  filter: sepia(0.6);
+  animation: photo 6s ease-in-out infinite alternate;
+}
+.edition.lead .edition-photo {
+  height: 110px;
+}
+.edition:nth-child(2n) .edition-photo {
+  animation-delay: -3s;
+}
+.prophet-next {
+  font-family: var(--display);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8rem;
+  margin: 20px 0 8px;
+}
+.prophet-cta {
+  margin-top: 18px;
+}
+
+/* ---- charms, spellbook ---- */
+.charm-kinds {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+}
+.charm-kinds li {
+  font-family: var(--display);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--gold);
+  color: var(--gold-hi);
+  box-shadow: inset 0 0 12px rgba(224, 179, 84, 0.25);
+}
+.charm:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 1px var(--gold), 0 0 34px rgba(150, 200, 255, 0.25);
+}
+.school li {
+  opacity: 0;
+  transform: translateY(-14px) scale(0.9);
+  transition: opacity 0.5s, transform 0.5s cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+.school.is-visible li {
+  opacity: 1;
+  transform: none;
+}
+:root.muggle .school li {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- nav extras ---- */
+.nav-blog {
+  color: var(--gold) !important;
+}
+.house-points {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--display);
+  font-size: 0.8rem;
+  color: var(--gold-hi);
+  animation: ink-in 0.6s;
+}
+.hp-shield {
+  width: 16px;
+  height: 18px;
+  background: linear-gradient(160deg, var(--scarlet), var(--scarlet-deep));
+  border: 1px solid var(--gold);
+  clip-path: polygon(0 0, 100% 0, 100% 55%, 50% 100%, 0 55%);
+}
+
+/* ---- footer ---- */
+.mischief {
+  font-family: var(--hand);
+  font-size: 2rem;
+  color: var(--gold-hi);
+}
+.footer .btn {
+  margin: 10px 0 18px;
+}
+kbd {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.85em;
+  padding: 1px 6px;
+  border: 1px solid var(--card-edge);
+  border-radius: 4px;
+}
+.envelope .btn {
+  margin-top: 20px;
+}
+
+/* ---- the spell overlay ---- */
+.spell-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+}
+.spell-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.spell-veil {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+.veil-flash .spell-veil {
+  background: radial-gradient(circle at var(--x) var(--y), #fff8e0 0%, var(--c) 18%, transparent 60%);
+  animation: veil-flash 1.1s ease-out forwards;
+}
+.veil-dark .spell-veil {
+  background: radial-gradient(circle at var(--x) var(--y), transparent 0%, #05040a 30%);
+  animation: veil-dark 1.4s ease-in-out forwards;
+}
+.veil-ring-out .spell-veil,
+.veil-ring-in .spell-veil {
+  opacity: 1;
+}
+.veil-ring-out .spell-veil::before,
+.veil-ring-in .spell-veil::before {
+  content: '';
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border-radius: 50%;
+  border: 3px solid var(--c);
+  box-shadow: 0 0 30px var(--c), inset 0 0 30px var(--c);
+}
+.veil-ring-out .spell-veil::before {
+  animation: ring-out 1s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+.veil-ring-in .spell-veil::before {
+  animation: ring-in 0.9s cubic-bezier(0.6, 0, 0.8, 0.4) forwards;
+}
+.veil-ink .spell-veil {
+  background: radial-gradient(circle at var(--x) var(--y), rgba(60, 30, 10, 0.55), transparent 45%);
+  animation: veil-flash 1.2s ease-out forwards;
+}
+.spell-word {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+  font-family: var(--hand);
+  font-size: clamp(2.6rem, 1.6rem + 5vw, 5.4rem);
+  color: #fff4d6;
+  text-shadow: 0 0 18px var(--c), 0 0 48px var(--c);
+  animation: word-out 1.4s ease-in forwards;
+}
+.spell-word span {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(6px);
+  animation: ink-in 0.45s forwards;
+}
+.spell-word small {
+  display: block;
+  font-family: var(--display);
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--c);
+  text-shadow: none;
+  opacity: 0;
+  animation: fade-in 0.6s 0.35s forwards;
+}
+.spell-toast-wrap {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  z-index: 61;
+  pointer-events: none;
+}
+.spell-toast {
+  margin: 0;
+  padding: 8px 18px;
+  font-family: var(--hand);
+  font-size: 1.25rem;
+  color: #1d1306;
+  background: linear-gradient(180deg, #ffd98a, #e0b354);
+  border: 2px solid var(--scarlet);
+  border-radius: 999px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  animation: toast 2.2s ease forwards;
+  white-space: nowrap;
+}
+
+/* ---- keyframes ---- */
+@keyframes fade-in {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes hat-talk {
+  0%,
+  100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+@keyframes hat-mouth {
+  to {
+    transform: scaleY(0.4);
+  }
+}
+@keyframes vanish {
+  to {
+    opacity: 0;
+    filter: blur(8px);
+    transform: scale(0.96) translateY(-8px);
+  }
+}
+@keyframes page-unlock {
+  from {
+    clip-path: circle(0% at 50% 40%);
+  }
+  to {
+    clip-path: circle(150% at 50% 40%);
+  }
+}
+@keyframes bubble {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.6);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-34px) scale(1.2);
+  }
+}
+@keyframes steam {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+@keyframes fire {
+  to {
+    transform: scaleY(1.35) scaleX(0.85);
+    fill: #ffc04a;
+  }
+}
+@keyframes write {
+  0% {
+    stroke-dashoffset: 420;
+    opacity: 1;
+  }
+  80% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+@keyframes quill-move {
+  0% {
+    offset-distance: 0%;
+  }
+  80% {
+    offset-distance: 100%;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+@keyframes photo {
+  from {
+    background-position: 0% 0, 0 0;
+    filter: sepia(0.6) brightness(0.9);
+  }
+  to {
+    background-position: 100% 0, 0 0;
+    filter: sepia(0.8) brightness(1.1);
+  }
+}
+@keyframes veil-flash {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes veil-dark {
+  0% {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+  35%,
+  70% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes ring-out {
+  0% {
+    transform: scale(0.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(60);
+    opacity: 0;
+  }
+}
+@keyframes ring-in {
+  0% {
+    transform: scale(60);
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+}
+@keyframes word-out {
+  0%,
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -64%);
+  }
+}
+@keyframes toast {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  12%,
+  82% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+@media (max-width: 860px) {
+  .room {
+    grid-template-columns: 1fr;
+  }
+  .door {
+    width: 150px;
+    height: 200px;
+  }
+  .verdict {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .house-points {
+    margin-left: auto;
+  }
+  .house-points + .muggle-toggle {
+    margin-left: 0;
+  }
+  .case-page-bar .btn {
+    font-size: 0.7rem;
+    padding: 10px 14px;
+  }
+}
+
+/* muggle mode and reduced motion: keep every element, drop the motion */
+:root.muggle .hat,
+:root.muggle .hat-mouth,
+:root.muggle .cloaked::after,
+:root.muggle .edition-photo {
+  animation: none;
+}
+:root.muggle .scarf {
+  box-shadow: none;
+}
+
+/* the nav has 8 links now: switch to the burger well before it would wrap */
+.nav ul a {
+  white-space: nowrap;
+}
+@media (max-width: 1240px) {
+  .nav-burger {
+    display: inline-block;
+    order: 3;
+    padding: 6px 12px;
+    font-size: 1rem;
+  }
+  .nav ul {
+    display: none;
+  }
+  .nav ul.is-open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 64px;
+    right: 16px;
+    left: auto;
+    min-width: 220px;
+    padding: 18px;
+    gap: 14px;
+    background: var(--night-2);
+    border: 1px solid var(--card-edge);
+    border-radius: 10px;
+  }
+  .house-points {
+    margin-left: auto;
+  }
+  .muggle-toggle {
+    margin-left: auto;
+  }
+  .house-points + .muggle-toggle {
+    margin-left: 0;
+  }
+}
+
+/* ---- spell whispers: the incantation floats above a control on hover / focus ---- */
+[data-spell] {
+  position: relative;
+}
+[data-spell]::after {
+  content: attr(data-spell);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 4px);
+  transform: translate(-50%, 6px);
+  font-family: var(--hand);
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  white-space: nowrap;
+  color: var(--gold-hi);
+  text-shadow: 0 0 12px rgba(255, 200, 100, 0.75);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s;
+}
+[data-spell]:hover::after,
+[data-spell]:focus-visible::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+/* the nav sits at the top of the screen: whisper below instead */
+.nav [data-spell]::after {
+  bottom: auto;
+  top: calc(100% + 4px);
+  transform: translate(-50%, -6px);
+}
+.nav [data-spell]:hover::after,
+.nav [data-spell]:focus-visible::after {
+  transform: translate(-50%, 0);
+}
+/* the door keeps its whisper inside the frame */
+.door[data-spell]::after {
+  bottom: 44px;
+  z-index: 4;
+}
+:root.muggle [data-spell]::after {
+  text-shadow: none;
+}
+.chip-clear {
+  border-style: dashed;
+}
+
+/* ---- sound toggle ---- */
+.sound-toggle {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  color: var(--ink-dim);
+  background: transparent;
+  border: 1px solid var(--card-edge);
+  border-radius: 50%;
+  cursor: pointer;
+}
+.sound-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+.sound-toggle[aria-pressed='true'] {
+  color: var(--gold-hi);
+}
+
+/* ---- owl post notes ---- */
+.owl-note {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  max-width: min(340px, calc(100vw - 40px));
+  animation: owl-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.owl {
+  width: 54px;
+  flex: none;
+  animation: owl-bob 2.4s ease-in-out infinite;
+}
+.owl-wing {
+  transform-box: fill-box;
+}
+.owl-wing-l {
+  transform-origin: right center;
+  animation: owl-flap-l 0.9s ease-in-out 3;
+}
+.owl-wing-r {
+  transform-origin: left center;
+  animation: owl-flap-r 0.9s ease-in-out 3;
+}
+.owl-eye {
+  animation: owl-blink 4s infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.owl-letter {
+  position: relative;
+  padding: 12px 16px 10px;
+  border-radius: 6px 6px 6px 0;
+  color: #2a1d12;
+  background: linear-gradient(170deg, #f3e8cd, #dcc79d);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.45);
+}
+.owl-seal {
+  position: absolute;
+  top: -8px;
+  right: 12px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #d4454b, #6e1015 70%);
+}
+.owl-from {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7a1418;
+}
+.owl-text {
+  margin: 2px 0 6px;
+  font-family: var(--hand);
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+.owl-actions {
+  display: flex;
+  gap: 14px;
+}
+.owl-actions button {
+  font: inherit;
+  font-size: 0.75rem;
+  color: #5f4f3e;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline dotted;
+}
+.owl-actions button:hover {
+  color: #7a1418;
+}
+
+@keyframes owl-in {
+  from {
+    opacity: 0;
+    transform: translate(-60px, 40px) rotate(-6deg);
+  }
+}
+@keyframes owl-bob {
+  50% {
+    transform: translateY(-4px);
+  }
+}
+@keyframes owl-flap-l {
+  50% {
+    transform: rotate(-35deg);
+  }
+}
+@keyframes owl-flap-r {
+  50% {
+    transform: rotate(35deg);
+  }
+}
+@keyframes owl-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.1);
+  }
+}
+
+@media (max-width: 860px) {
+  .owl-note {
+    left: 12px;
+    bottom: 12px;
+  }
+  .spell-toast-wrap {
+    bottom: auto;
+    top: 76px;
+  }
+  .sound-toggle {
+    width: 32px;
+    height: 32px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .owl-note,
+  .owl,
+  .owl-wing,
+  .owl-eye {
+    animation: none;
+  }
+}
+
+/* nav right cluster on burger widths: [points] [sound] [mode] [menu] packed to the right */
+@media (max-width: 1240px) {
+  .nav .sound-toggle {
+    margin-left: auto;
+  }
+  .nav .muggle-toggle,
+  .nav .house-points + .sound-toggle {
+    margin-left: 0;
+  }
+}
+
+/* ---- house points: always visible, the number pops when it changes ---- */
+.hp-count {
+  display: inline-block;
+  min-width: 1.5em;
+  animation: hp-pop 0.5s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+@keyframes hp-pop {
+  from {
+    transform: scale(1.8);
+    color: #fff;
+  }
+}
+.spell-toast {
+  display: grid;
+  text-align: center;
+  line-height: 1.15;
+  padding: 8px 20px 9px;
+  white-space: normal;
+  max-width: calc(100vw - 32px);
+}
+.spell-toast strong {
+  font-weight: 600;
+}
+.spell-toast small {
+  font-family: var(--body);
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+.spell-toast.is-bad {
+  color: #eafff0;
+  background: linear-gradient(180deg, #2f6b3c, #173d22);
+  border-color: #5dff7a;
+}
+
+/* ---- Azkaban ---- */
+.cells {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+}
+.cell a {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  height: 100%;
+  padding: 18px 18px 46px;
+  border-radius: 6px;
+  color: var(--ink);
+  text-decoration: none;
+  background:
+    linear-gradient(180deg, rgba(120, 140, 170, 0.12), transparent 40%),
+    #0d0f14;
+  border: 1px solid rgba(150, 170, 200, 0.28);
+  overflow: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+:root.muggle .cell a {
+  background: var(--card);
+  border-color: var(--card-edge);
+}
+.cell a:hover {
+  border-color: rgba(190, 215, 255, 0.7);
+  box-shadow: 0 0 34px rgba(150, 190, 255, 0.18);
+}
+.cell-no {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: #9fb2cc;
+}
+.cell-name {
+  font-family: var(--display);
+  font-size: 1.15rem;
+  color: var(--gold-hi);
+}
+.cell-row {
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+.cell-row em {
+  display: block;
+  font-style: normal;
+  font-family: var(--display);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.cell-status {
+  position: absolute;
+  left: 18px;
+  bottom: 14px;
+  font-family: var(--display);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1px solid;
+  border-radius: 3px;
+}
+.cell-status.locked {
+  color: #8fd19e;
+}
+.cell-status.trial {
+  color: #e8a26b;
+}
+/* cell bars slide shut over the card; they lift on hover */
+.bars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(90deg, transparent 0 26px, rgba(170, 185, 205, 0.16) 26px 30px);
+  transition: transform 0.6s cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+.cell a:hover .bars,
+.cell a:focus-visible .bars {
+  transform: translateY(-100%);
+}
+:root.muggle .bars {
+  display: none;
+}
+.guards {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 20px;
+  margin-top: 22px;
+}
+.patronus-btn {
+  border-color: rgba(200, 230, 255, 0.6);
+  color: #e6f4ff;
+  box-shadow: 0 0 24px rgba(180, 220, 255, 0.25);
+}
+:root.muggle .patronus-btn {
+  color: var(--ink);
+  box-shadow: none;
+}
+
+/* ---- the cold: frost creeps in from the edges near the dementors (--cold set by the scene) ---- */
+.frost {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: var(--cold, 0);
+  background:
+    radial-gradient(ellipse at center, transparent 50%, rgba(170, 200, 255, 0.16) 78%, rgba(225, 238, 255, 0.42) 100%);
+  box-shadow: inset 0 0 140px rgba(190, 220, 255, 0.35);
+}
+/* the Taboo: a sudden cold snap */
+:root.taboo .frost {
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+:root.taboo main {
+  animation: taboo-shake 0.5s 2;
+}
+@keyframes taboo-shake {
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root.taboo main {
+    animation: none;
+  }
+}
+
+.muggle-toggle {
+  white-space: nowrap;
+}
+@media (max-width: 480px) {
+  .nav {
+    gap: 10px;
+  }
+  .muggle-toggle {
+    padding: 7px 10px;
+    font-size: 0.62rem;
+  }
+}
+
+/* =====================================================================
+   v4: visible points, floating Patronus button, the doe
+   ===================================================================== */
+
+/* "+10" rises from where you clicked */
+.points-floater {
+  position: fixed;
+  z-index: 62;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 2rem;
+  color: #ffe08a;
+  text-shadow: 0 0 10px rgba(255, 200, 90, 0.9), 0 2px 0 #7a1418;
+  animation: float-up 1.6s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+.points-floater.is-bad {
+  color: #8dff9f;
+  text-shadow: 0 0 10px rgba(80, 255, 120, 0.8), 0 2px 0 #0f3a1a;
+}
+@keyframes float-up {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -30%) scale(0.6);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, -80%) scale(1.15);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -260%) scale(1);
+  }
+}
+
+/* the banner drops in at the top, under the house-points counter */
+.spell-toast-wrap {
+  top: 74px;
+  bottom: auto;
+}
+.spell-toast {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 12px;
+  align-items: center;
+  text-align: left;
+  padding: 10px 22px 10px 14px;
+  font-size: 1.5rem;
+  border-width: 2px;
+  box-shadow: 0 0 0 3px rgba(122, 20, 24, 0.5), 0 14px 40px rgba(0, 0, 0, 0.5);
+  animation: banner 3.2s ease forwards;
+}
+.spell-toast strong {
+  font-family: var(--hand);
+  font-size: 1.6rem;
+  grid-column: 2;
+}
+.spell-toast small {
+  grid-column: 2;
+  font-size: 0.85rem;
+}
+.toast-shield {
+  grid-row: 1 / span 2;
+  width: 30px;
+  height: 34px;
+  background: linear-gradient(160deg, #a3202a, #5a0f14);
+  border: 2px solid #e0b354;
+  clip-path: polygon(0 0, 100% 0, 100% 55%, 50% 100%, 0 55%);
+}
+.spell-toast.is-bad .toast-shield {
+  background: linear-gradient(160deg, #2bd94f, #0f3a1a);
+  border-color: #5dff7a;
+}
+@keyframes banner {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.9);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0) scale(1.04);
+  }
+  16%,
+  85% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+}
+
+/* ---- always-visible Patronus button ---- */
+.patronus-fab {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 45;
+  padding: 11px 18px;
+  font-family: var(--display);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #eaf6ff;
+  background: rgba(14, 20, 32, 0.78);
+  border: 1px solid rgba(200, 230, 255, 0.55);
+  border-radius: 999px;
+  box-shadow: 0 0 22px rgba(170, 215, 255, 0.22);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: box-shadow 0.4s, border-color 0.4s, transform 0.2s;
+}
+.patronus-fab:hover {
+  transform: translateY(-2px);
+  border-color: #ffffff;
+}
+.fab-glow {
+  position: absolute;
+  inset: -6px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+}
+/* dementors nearby: the button breathes silver */
+.patronus-fab.is-urgent {
+  border-color: #ffffff;
+  box-shadow: 0 0 34px rgba(200, 235, 255, 0.6);
+}
+.patronus-fab.is-urgent .fab-glow {
+  opacity: 1;
+  box-shadow: 0 0 0 2px rgba(220, 240, 255, 0.7);
+  animation: fab-pulse 1.8s ease-out infinite;
+}
+@keyframes fab-pulse {
+  from {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+@media (max-width: 860px) {
+  .patronus-fab {
+    right: 12px;
+    bottom: 12px;
+    padding: 10px 14px;
+  }
+  .owl-note {
+    bottom: 64px;
+  }
+  .spell-toast-wrap {
+    top: 70px;
+  }
+  .spell-toast strong {
+    font-size: 1.3rem;
+  }
+}
+
+/* ---- the doe: a particle Patronus drawn on its own canvas (Doe.tsx) ---- */
+.patronus-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* nav cluster with the Muggle theme toggle in it: keep the right-hand group packed together */
+@media (max-width: 1240px) {
+  .nav .theme-toggle {
+    margin-left: auto;
+  }
+  .nav .house-points + .theme-toggle,
+  .nav .theme-toggle + .sound-toggle {
+    margin-left: 0;
+  }
+}

@@ -1,0 +1,222 @@
+/* ===== Interactive layer: wand cursor, Golden Snitch, mist, map reveal ===== */
+
+/* ---- the wand replaces the mouse arrow (mouse/pen only, wizard mode only) ---- */
+:root.wand-cursor,
+:root.wand-cursor * {
+  cursor: none !important;
+}
+.wand {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 80;
+  width: 78px;
+  height: 78px;
+  pointer-events: none;
+  transform-origin: 0 0;
+  opacity: 0;
+  transition: opacity 0.2s;
+  filter: drop-shadow(2px 3px 2px rgba(0, 0, 0, 0.45));
+}
+.wand svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+/* the glowing tip sits exactly on the click point */
+.wand-tip {
+  position: absolute;
+  left: -5px;
+  top: -5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff8dc 0%, #ffd27a 45%, rgba(255, 180, 80, 0) 72%);
+  box-shadow: 0 0 10px 3px rgba(255, 200, 110, 0.55);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+/* over anything clickable (or the crest) the tip lights up */
+.wand.is-hot .wand-tip,
+:root.over-crest .wand-tip {
+  transform: scale(1.7);
+  box-shadow: 0 0 18px 7px rgba(255, 215, 130, 0.75);
+}
+
+/* ---- the Golden Snitch ---- */
+.snitch {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 46;
+  width: 70px;
+  height: 40px;
+  margin: -20px 0 0 -35px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  will-change: transform;
+}
+/* a generous invisible hit area, so phones can catch it too */
+.snitch::before {
+  content: '';
+  position: absolute;
+  inset: -16px;
+}
+.snitch-ball {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff6c8, #ffd24a 35%, #b8860b 80%);
+  box-shadow: 0 0 14px 4px rgba(255, 210, 90, 0.65), inset -2px -2px 3px rgba(120, 80, 0, 0.5);
+}
+/* fine engraved band */
+.snitch-ball::after {
+  content: '';
+  position: absolute;
+  inset: 3px 1px;
+  border-top: 1px solid rgba(120, 80, 0, 0.45);
+  border-bottom: 1px solid rgba(120, 80, 0, 0.45);
+  border-radius: 50%;
+}
+.snitch-wing {
+  width: 26px;
+  height: 12px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(235, 240, 255, 0.55));
+  border-radius: 100% 0 100% 0;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+}
+.snitch-wing-l {
+  transform-origin: right center;
+  animation: wing-l 0.07s linear infinite alternate;
+  margin-right: -2px;
+}
+.snitch-wing-r {
+  transform-origin: left center;
+  animation: wing-r 0.07s linear infinite alternate;
+  margin-left: -2px;
+  border-radius: 0 100% 0 100%;
+}
+@keyframes wing-l {
+  from {
+    transform: rotate(28deg) scaleY(1);
+  }
+  to {
+    transform: rotate(-24deg) scaleY(0.5);
+  }
+}
+@keyframes wing-r {
+  from {
+    transform: rotate(-28deg) scaleY(1);
+  }
+  to {
+    transform: rotate(24deg) scaleY(0.5);
+  }
+}
+/* caught: wings fold, a gold flash */
+.snitch.is-caught .snitch-wing {
+  animation: none;
+  transform: scaleX(0.3);
+  transition: transform 0.2s;
+}
+.snitch.is-caught .snitch-ball {
+  animation: snitch-caught 0.9s ease-out forwards;
+}
+@keyframes snitch-caught {
+  30% {
+    transform: scale(1.6);
+    box-shadow: 0 0 40px 18px rgba(255, 215, 100, 0.9);
+  }
+  to {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+}
+
+/* ---- mist along the bottom, between the 3D scene and the text ---- */
+.mist {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 0;
+  width: 100vw;
+  height: 34vh;
+  pointer-events: none;
+}
+
+/* ---- map: stage labels appear as the footprints reach them ---- */
+.map-node text,
+.map-node circle {
+  transition: opacity 0.5s, transform 0.5s;
+}
+.map-node:not(.is-on) text {
+  opacity: 0;
+}
+.map-node:not(.is-on) circle {
+  opacity: 0.25;
+}
+.map-foot {
+  transition: opacity 0.3s;
+}
+:root.muggle .map-node text,
+:root.muggle .map-node circle {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .snitch-wing {
+    animation-duration: 0.4s;
+  }
+}
+
+/* ---- bottom-right dock: wand toggle + Cast a Patronus ---- */
+.fab-dock {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.fab-dock .patronus-fab {
+  position: static;
+}
+.wand-toggle {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  color: #cfdcef;
+  background: rgba(14, 20, 32, 0.78);
+  border: 1px solid rgba(200, 230, 255, 0.4);
+  border-radius: 50%;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: color 0.25s, border-color 0.25s, box-shadow 0.25s, transform 0.2s;
+}
+.wand-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+.wand-toggle:hover {
+  transform: translateY(-2px);
+  border-color: #ffffff;
+}
+/* on: gold, like a lit wand tip */
+.wand-toggle.is-on {
+  color: var(--gold-hi);
+  border-color: var(--gold);
+  box-shadow: 0 0 18px rgba(255, 200, 100, 0.45);
+}
+@media (max-width: 860px) {
+  .fab-dock {
+    right: 12px;
+    bottom: 12px;
+  }
+}

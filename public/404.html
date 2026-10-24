@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Platform 9¾ · Nader Ayman</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Cinzel:wght@600&display=swap" rel="stylesheet" />
+    <style>
+      :root { color-scheme: dark; }
+      body {
+        margin: 0;
+        min-height: 100svh;
+        display: grid;
+        place-items: center;
+        background: radial-gradient(circle at 50% 40%, #2a1610, #07060b 65%);
+        color: #efe4cc;
+        font-family: Georgia, serif;
+        text-align: center;
+        padding: 16px;
+      }
+      .wall {
+        width: min(420px, 100%);
+        padding: 40px 24px;
+        border-radius: 8px;
+        background:
+          repeating-linear-gradient(0deg, rgba(0,0,0,.35) 0 2px, transparent 2px 34px),
+          repeating-linear-gradient(90deg, rgba(0,0,0,.25) 0 2px, transparent 2px 68px),
+          linear-gradient(160deg, #6b3424, #3b1d14);
+        box-shadow: 0 30px 80px rgba(0,0,0,.6);
+      }
+      .sign {
+        display: inline-block;
+        font-family: Cinzel, serif;
+        font-size: 1.6rem;
+        padding: 8px 18px;
+        background: #7a1418;
+        border: 2px solid #e0b354;
+        color: #ffd98a;
+        margin-bottom: 18px;
+      }
+      p { font-size: 1.1rem; }
+      .hand { font-family: Caveat, cursive; font-size: 1.6rem; color: #ffd98a; }
+      a {
+        display: inline-block;
+        margin-top: 12px;
+        padding: 12px 22px;
+        border-radius: 999px;
+        background: linear-gradient(180deg, #ffd98a, #e0b354);
+        color: #1d1306;
+        text-decoration: none;
+        font-family: Cinzel, serif;
+        letter-spacing: .08em;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wall">
+      <div class="sign">Platform 9¾</div>
+      <p>You ran at the wall, but this page isn't behind it.</p>
+      <p class="hand">Reparo!</p>
+      <a href="/portfolio/">Back to the castle</a>
+    </main>
+  </body>
+</html>

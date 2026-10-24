@@ -1,0 +1,362 @@
+/* ===== The acceptance letter (src/magic/Letter.tsx) ===== */
+
+.letter-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  display: grid;
+  /* safe: if the letter is taller than the screen it scrolls instead of losing its top */
+  place-items: safe center;
+  padding: 16px;
+  overflow-y: auto;
+  background: radial-gradient(ellipse at 50% 40%, rgba(40, 24, 14, 0.55), rgba(5, 4, 8, 0.9) 70%);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+.letter-stage.stage-leaving {
+  animation: stage-out 0.7s ease forwards;
+}
+@keyframes stage-out {
+  to {
+    opacity: 0;
+    backdrop-filter: blur(0);
+  }
+}
+
+.letter-skip {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 2;
+  font: inherit;
+  font-family: var(--display);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  background: transparent;
+  border: 1px solid var(--card-edge);
+  border-radius: 999px;
+  padding: 7px 14px;
+  cursor: pointer;
+}
+.letter-skip:hover {
+  color: var(--gold-hi);
+  border-color: var(--gold);
+}
+
+/* ---- envelope ---- */
+.envelope-wrap {
+  perspective: 900px;
+  animation: env-arrive 1.4s cubic-bezier(0.2, 0.8, 0.25, 1) both;
+}
+.stage-opening .envelope-wrap {
+  animation: env-away 1.3s 0.7s ease-in forwards;
+}
+.env {
+  position: relative;
+  width: min(420px, 86vw);
+  aspect-ratio: 3 / 2;
+  animation: env-float 3s ease-in-out infinite;
+}
+.env-back,
+.env-front,
+.env-paper {
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+}
+.env-back {
+  background: linear-gradient(160deg, #d9c49a, #bfa16c);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+}
+/* the letter peeking out, rises when the flap opens */
+.env-paper {
+  inset: 8% 6% 10%;
+  background: linear-gradient(170deg, #f6ecd2, #e6d3a8);
+  transition: transform 0.9s 0.35s cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+.stage-opening .env-paper {
+  transform: translateY(-46%);
+}
+.env-front {
+  background:
+    linear-gradient(to top right, transparent 49.6%, rgba(90, 60, 25, 0.18) 50%, transparent 50.4%) left bottom / 50% 48% no-repeat,
+    linear-gradient(to top left, transparent 49.6%, rgba(90, 60, 25, 0.18) 50%, transparent 50.4%) right bottom / 50% 48% no-repeat,
+    linear-gradient(170deg, #ead9b2, #d4bb88);
+  /* covers everything except the triangle under the flap */
+  clip-path: polygon(0 0, 50% 52%, 100% 0, 100% 100%, 0 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+/* green ink address, like the letters that arrive by owl */
+.env-address {
+  display: grid;
+  margin: 0 0 7%;
+  text-align: center;
+  font-family: var(--hand);
+  font-size: clamp(0.95rem, 0.75rem + 1vw, 1.3rem);
+  line-height: 1.12;
+  color: #1f5a32;
+}
+.env-flap {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 52%;
+  background: linear-gradient(180deg, #e3d0a6, #cdb27c);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top center;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
+  transition: transform 0.6s ease-in;
+}
+.stage-opening .env-flap {
+  transform: rotateX(180deg);
+}
+.env-seal {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: 48px;
+  height: 48px;
+  margin: -24px 0 0 -24px;
+  display: grid;
+  place-items: center;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #f5c9a0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #c9363c, #6e1015 70%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45), inset 0 -3px 6px rgba(0, 0, 0, 0.4);
+}
+.stage-opening .env-seal {
+  animation: seal-break 0.5s forwards;
+}
+@keyframes env-arrive {
+  from {
+    opacity: 0;
+    transform: translate(-30vw, -40vh) rotate(-24deg) scale(0.4);
+  }
+}
+@keyframes env-float {
+  50% {
+    transform: translateY(-8px) rotate(0.6deg);
+  }
+}
+@keyframes env-away {
+  to {
+    opacity: 0;
+    transform: translateY(18vh) scale(0.9);
+  }
+}
+@keyframes seal-break {
+  40% {
+    transform: scale(1.12);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.6) rotate(20deg);
+  }
+}
+
+/* ---- the letter ---- */
+.acceptance {
+  position: relative;
+  width: min(620px, 100%);
+  padding: clamp(18px, 3.5vh, 36px) clamp(20px, 5vw, 46px) clamp(16px, 3vh, 28px);
+  color: #2a1d12;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(255, 252, 240, 0.9), transparent 55%),
+    radial-gradient(ellipse at 100% 100%, rgba(150, 110, 60, 0.25), transparent 50%),
+    linear-gradient(172deg, #f5ead0, #e3cf9f);
+  border-radius: 3px;
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6), inset 0 0 60px rgba(120, 80, 30, 0.25);
+  transform: rotate(-0.6deg);
+  animation: letter-rise 0.9s cubic-bezier(0.2, 0.8, 0.25, 1) both;
+  cursor: default;
+}
+.stage-leaving .acceptance {
+  animation: letter-unlock 0.7s ease-in forwards;
+}
+@keyframes letter-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18vh) rotate(-3deg) scale(0.92);
+  }
+}
+@keyframes letter-unlock {
+  to {
+    opacity: 0;
+    filter: blur(6px);
+    transform: scale(1.08) rotate(0deg);
+  }
+}
+.acc-head {
+  text-align: center;
+  border-bottom: 1px solid rgba(42, 29, 18, 0.25);
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+}
+.acc-crest {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 46px;
+  font-family: var(--display);
+  font-weight: 700;
+  color: #ffd98a;
+  background: linear-gradient(160deg, #a3202a, #5a0f14);
+  border: 2px solid #b8862e;
+  clip-path: polygon(0 0, 100% 0, 100% 55%, 50% 100%, 0 55%);
+}
+.acc-head h1 {
+  margin: 8px 0 2px;
+  font-size: clamp(1.4rem, 1rem + 2vw, 2.1rem);
+  letter-spacing: 0.12em;
+  color: #2a1d12;
+}
+.acc-office {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #7a1418;
+}
+.acc-keeper {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #5f4f3e;
+}
+.acc-body p {
+  margin: 0 0 0.7em;
+  font-family: var(--hand);
+  font-size: clamp(1.1rem, 0.85rem + 1.1vh, 1.45rem);
+  line-height: 1.28;
+  color: #23170e;
+}
+.acc-greeting {
+  font-weight: 600;
+}
+/* unwritten text keeps its space so the page never jumps */
+.acc-unwritten {
+  visibility: hidden;
+}
+.quill-tip {
+  position: relative;
+  display: inline-block;
+  width: 0;
+  height: 1em;
+}
+.quill-tip svg {
+  position: absolute;
+  left: -2px;
+  bottom: 0.1em;
+  width: 22px;
+  height: 34px;
+  transform-origin: 2px 58px;
+  animation: quill-wiggle 0.22s ease-in-out infinite alternate;
+  filter: drop-shadow(1px 2px 1px rgba(0, 0, 0, 0.3));
+}
+@keyframes quill-wiggle {
+  to {
+    transform: rotate(-6deg) translateY(-1px);
+  }
+}
+.acc-sign {
+  text-align: right;
+  opacity: 0;
+  transition: opacity 0.8s;
+}
+.acc-sign.is-in {
+  opacity: 1;
+}
+.acc-sign p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+.acc-signature {
+  font-family: var(--hand);
+  font-size: 1.7rem !important;
+  color: #1d140d;
+}
+.acc-title {
+  font-style: italic;
+  color: #5f4f3e;
+}
+.acc-enter {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s, transform 0.6s;
+}
+.acc-enter.is-in {
+  opacity: 1;
+  transform: none;
+}
+.acc-enter small {
+  font-family: var(--display);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #7a5a2a;
+}
+.alohomora {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: inherit;
+  font-family: var(--hand);
+  font-size: 1.8rem;
+  color: #fff4d6;
+  background: linear-gradient(180deg, #a3202a, #5a0f14);
+  border: 2px solid #e0b354;
+  border-radius: 999px;
+  padding: 6px 28px 8px;
+  cursor: pointer;
+  box-shadow: 0 0 0 4px rgba(224, 179, 84, 0.2), 0 10px 30px rgba(90, 15, 20, 0.5);
+  animation: aloho-glow 2s ease-in-out infinite;
+}
+.alohomora:hover {
+  transform: translateY(-2px);
+}
+.alohomora:disabled {
+  animation: none;
+  cursor: default;
+}
+.alohomora .keyhole {
+  color: #ffd98a;
+}
+@keyframes aloho-glow {
+  50% {
+    box-shadow: 0 0 0 7px rgba(224, 179, 84, 0.12), 0 0 34px rgba(255, 200, 100, 0.55);
+  }
+}
+
+@media (max-width: 480px) {
+  .acc-head h1 {
+    margin-top: 4px;
+  }
+  .acc-crest {
+    width: 32px;
+    height: 37px;
+  }
+  .letter-stage {
+    padding: 56px 12px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .envelope-wrap,
+  .env,
+  .acceptance,
+  .alohomora,
+  .quill-tip svg {
+    animation: none !important;
+  }
+}
