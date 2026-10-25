@@ -1,9 +1,10 @@
 // Every word on the site lives here. Components only render it.
-// Source of truth: Nader_Ayman_Resume.pdf (Oct 2026) + the published blog and repos.
+// Source of truth: the CV (Oct 2026, on Google Drive) + the published blog and repos.
 // Rules: no lab paths, no VM names, no raw domains or IPs. Phone only inside the CV PDF.
-// Empty `href` = not published yet (rendered as a sealed link, never a dead one).
+// Unfinished work links to its coming-soon page (blog post / repo) with `soon: true`; never a dead link.
 
-export type Link = { label: string; href: string }
+// `soon`: the target exists but only says "coming soon" for now; the link shows a small tag
+export type Link = { label: string; href: string; soon?: boolean }
 
 export type CaseFile = {
   id: string
@@ -58,8 +59,8 @@ export const links = {
   linkedin: 'https://www.linkedin.com/in/nader-ayman-569358286/',
   blog: `${BLOG}/`,
   medium: 'https://medium.com/@naderayman2829',
-  // Swap for the Google Drive link once it exists.
-  resume: `${import.meta.env.BASE_URL}Nader_Ayman_Resume.pdf`,
+  // The CV lives on Google Drive so it can be updated without touching the site.
+  resume: 'https://drive.google.com/file/d/1YjMK6lSwwpSh8dem5ERzQz6J0u4FHIsg/view?usp=drive_link',
 }
 
 export const about = [
@@ -149,8 +150,8 @@ export const caseFiles: CaseFile[] = [
     ],
     tools: ['IDA Pro', 'capa', 'FLOSS', 'YARA', 'Sigma'],
     links: [
-      { label: 'Report', href: '' },
-      { label: 'Repo', href: '' },
+      { label: 'Report', href: `${BLOG}/posts/KryBit-Ransomware-Analysis/`, soon: true },
+      { label: 'Repo', href: `${GH}/krybit-ransomware-analysis`, soon: true },
     ],
     note: 'the write-up is still in the cauldron',
   },
@@ -173,8 +174,8 @@ export const caseFiles: CaseFile[] = [
     ],
     tools: ['jadx', 'apktool', 'Frida', 'IDA Pro (ARM64)', 'Python'],
     links: [
-      { label: 'Report', href: '' },
-      { label: 'Repo', href: '' },
+      { label: 'Report', href: `${BLOG}/posts/AntiDot-Android-Banker-Analysis/`, soon: true },
+      { label: 'Repo', href: `${GH}/antidot-android-banker`, soon: true },
     ],
     note: 'Frida did the heavy lifting here',
   },
@@ -286,7 +287,10 @@ export const caseFiles: CaseFile[] = [
       'A Diamond Model per delivery chain, key judgments with confidence levels and stated gaps, and a STIX 2.1 bundle imported into MISP and OpenCTI.',
     ],
     tools: ['RDAP', 'crt.sh', 'passive DNS', 'urlscan', 'Shodan', 'Censys', 'ThreatFox', 'MISP', 'OpenCTI'],
-    links: [{ label: 'Report', href: '' }],
+    links: [
+      { label: 'Report', href: `${BLOG}/posts/Lumma-CTI-Infrastructure/`, soon: true },
+      { label: 'Campaign repo', href: `${GH}/lumma-stealer-campaign` },
+    ],
   },
   {
     id: 'egypt-phishing',
@@ -307,8 +311,8 @@ export const caseFiles: CaseFile[] = [
     ],
     tools: ['crt.sh', 'CertStream', 'urlscan', 'dnstwist', 'Python', 'STIX 2.1'],
     links: [
-      { label: 'Report', href: '' },
-      { label: 'Monitor repo', href: '' },
+      { label: 'Report', href: `${BLOG}/posts/Egypt-Phishing-Infrastructure/`, soon: true },
+      { label: 'Monitor repo', href: `${GH}/egypt-phishing-monitor`, soon: true },
     ],
   },
   {
@@ -328,7 +332,7 @@ export const caseFiles: CaseFile[] = [
       'Detections and prioritized recommendations.',
     ],
     tools: ['ransomware.live', 'MITRE ATT&CK', 'IDA Pro', 'YARA', 'Sigma'],
-    links: [{ label: 'Brief', href: '' }],
+    links: [{ label: 'Brief', href: `${BLOG}/posts/Ransomware-Brief-Egypt-GCC/`, soon: true }],
   },
 ]
 
@@ -347,7 +351,7 @@ export const charms = {
 export const roomOfRequirement = {
   line: 'An AI-assisted analysis workflow: an LLM agent drives IDA Pro and x64dbg under guard rules, every finding is tagged with its evidence, and a fact-check pass runs before anything is published.',
   points: ['Guard rules: no sample ever touches the host', 'Evidence-tagged findings: seen vs. inferred', 'Fact-check agent before publishing'],
-  link: { label: 'Write-up', href: '' },
+  link: { label: 'Write-up', href: `${BLOG}/posts/AI-Assisted-Malware-Lab/`, soon: true },
 }
 
 // The blog stays its own site. These are the latest editions; titles match the posts.
@@ -360,7 +364,13 @@ export const prophet = {
     { title: 'AgentTesla RAT', date: 'Jun 2026', href: `${BLOG}/posts/AgentTesla-RAT-Full-Malware-Analysis-Report/`, dek: 'Loader chain, steganographic payload recovery and process hollowing.' },
     { title: 'Sysmon Mirage v2', date: 'May 2026', href: `${BLOG}/posts/Sysmon-mirage-v2/`, dek: 'Three T1055 techniques and what Sysmon really sees of each.' },
   ],
-  upcoming: ['KryBit ransomware report', 'AntiDot Android banker', 'Lumma: from config to infrastructure', 'Phishing infrastructure targeting Egyptian banks'],
+  // next editions: each links to its coming-soon post (same address the real post will use)
+  upcoming: [
+    { title: 'KryBit ransomware report', href: `${BLOG}/posts/KryBit-Ransomware-Analysis/` },
+    { title: 'AntiDot Android banker', href: `${BLOG}/posts/AntiDot-Android-Banker-Analysis/` },
+    { title: 'Lumma: from config to infrastructure', href: `${BLOG}/posts/Lumma-CTI-Infrastructure/` },
+    { title: 'Phishing infrastructure targeting Egyptian banks', href: `${BLOG}/posts/Egypt-Phishing-Infrastructure/` },
+  ],
 }
 
 export const spellbook: { school: string; spells: string[] }[] = [

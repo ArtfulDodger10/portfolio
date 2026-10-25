@@ -55,11 +55,11 @@ export function EnchantedQuill({ line }: { line: string }) {
   )
 }
 
-export function InvisibilityCloak({ title }: { title: string }) {
+export function InvisibilityCloak({ title, href }: { title: string; href: string }) {
   return (
-    <div className="cloaked" tabIndex={0} aria-label={`${title}: coming soon`}>
+    <a className="cloaked" href={href} target="_blank" rel="noopener noreferrer" aria-label={`${title}: coming soon`}>
       <span className="cloaked-title">{title}</span>
-      <span className="cloaked-hint">under the Invisibility Cloak</span>
-    </div>
+      <span className="cloaked-hint">under the Invisibility Cloak · coming soon</span>
+    </a>
   )
 }

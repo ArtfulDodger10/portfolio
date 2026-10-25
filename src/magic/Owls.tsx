@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { owlNotes } from '../content/site'
 
-// Owl post: a small note flies in when a section is first reached. Gentle by design:
-// one at a time, at least 20 s apart, at most 5 per visit, gone after 8 s, never repeated in a session,
-// and one click turns them off for good. Off in Muggle mode.
+// Owl post: one note every 20 seconds, on a steady rhythm. The note for the section the visitor is reading
+// goes first; otherwise the next unread one in order. Each note shows for 8 s and never repeats in a session;
+// when all are read, the owls stop. One click turns them off for good. Off in Muggle mode.
+// Replies to something the visitor did (typed easter eggs, the dementors) arrive at once and restart the clock.
 
-const GAP = 20_000
+const EVERY = 20_000
 const STAY = 8_000
-const MAX = 5
 
 function seen(): string[] {
   try {
@@ -40,8 +40,7 @@ export function OwlPostNotes({ off }: { off: boolean }) {
   const [note, setNote] = useState<(typeof owlNotes)[number] | null>(null)
   const [stopped, setStopped] = useState(owlsOff)
   const queue = useRef<string[]>([])
-  const last = useRef(0)
-  const delivered = useRef(seen().length)
+  const last = useRef(Date.now())
 
   useEffect(() => {
     if (off || stopped) return
@@ -50,7 +49,6 @@ export function OwlPostNotes({ off }: { off: boolean }) {
       if (!done.has(id) && !queue.current.includes(id)) queue.current.push(id)
     }
 
-    const first = setTimeout(() => want('top'), 6000)
     const io = new IntersectionObserver(
       (entries) => entries.forEach((e) => e.isIntersecting && want(e.target.id)),
       // "reached" = the section crosses the middle of the screen (works for very tall sections too)
@@ -61,21 +59,21 @@ export function OwlPostNotes({ off }: { off: boolean }) {
       if (el) io.observe(el)
     })
 
-    // deliver from the queue, respecting the gap and the per-visit cap
+    // every 20 s: the note for where the visitor is, else the next unread one
+    last.current = Date.now()
     const tick = setInterval(() => {
-      if (delivered.current >= MAX || Date.now() - last.current < GAP) return
-      const id = queue.current.shift()
-      const n = id && owlNotes.find((x) => x.section === id)
-      if (!n) return
+      if (Date.now() - last.current < EVERY) return
+      let id = queue.current.shift()
+      while (id && done.has(id)) id = queue.current.shift()
+      const n = (id && owlNotes.find((x) => x.section === id)) || owlNotes.find((x) => !done.has(x.section))
+      if (!n) return clearInterval(tick) // all read
       done.add(n.section)
       markSeen(n.section)
-      delivered.current++
       last.current = Date.now()
       setNote(n)
     }, 1000)
 
     return () => {
-      clearTimeout(first)
       clearInterval(tick)
       io.disconnect()
     }
@@ -85,6 +83,7 @@ export function OwlPostNotes({ off }: { off: boolean }) {
     if (off) return
     const on = (e: Event) => {
       const d = (e as CustomEvent<{ from: string; text: string }>).detail
+      last.current = Date.now()
       setNote({ section: `direct-${Date.now()}`, ...d })
     }
     window.addEventListener('owl', on)

@@ -82,7 +82,7 @@ export function CasePage({ id }: { id: string }) {
           {brewing ? (
             <section className="brewing-panel">
               <Cauldron label="The full write-up is still in the cauldron" />
-              <EnchantedQuill line="The enchanted quill is still writing this chapter. The report and code unseal when they are published." />
+              <EnchantedQuill line="The enchanted quill is still writing this chapter. The links below already open; the full report lands there the moment it is finished." />
             </section>
           ) : (
             <section className="parchment">

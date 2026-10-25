@@ -34,11 +34,11 @@ No Blender: every 3D object is procedural (geometry + shaders in code) or a CC0 
 5. **IP:** fan-*inspired* only. No official crests, logos, film fonts, music, screenshots or likenesses;
    no long book/film quotes. Original art, Google Fonts (Cinzel, Cormorant Garamond, Caveat), CC0 assets.
    Keep the "not affiliated" footer line.
-6. **Privacy / security hygiene (inherited from the lab):** no phone number in page text (it is only inside the
-   CV PDF the analyst chose to publish), no lab paths, VM names,
+6. **Privacy / security hygiene (inherited from the lab):** no phone number in page text (the CV is a Google
+   Drive link, `links.resume`; the analyst edits it there), no lab paths, VM names,
    hwids, or anything from victim-derived files. Network IOCs defanged in prose; the Map shows stages,
    not domains. Never claim a finding the published write-up doesn't support. Unfinished work = `status: 'brewing'`
-   with empty links (rendered as "sealed").
+   with links to its coming-soon post/repo (`soon: true`).
 7. **Voice ("humanic"):** first person, short, specific, a little dry. Handwritten margin notes (Caveat)
    are the human touch — one per section at most. No hype words ("cutting-edge", "passionate").
 
@@ -56,12 +56,12 @@ Ascendio = back to top · Expecto Patronum = typed easter egg. New interactions 
 House points: every visitor starts at 0 (not stored). Each distinct action pays once per visit with a chime and a
 reason line: spells via `cast(..., { key })` (points/reason in `SPELLS`), other actions via `award(key, pts, reason)`
 (amounts in `site.ts` `points`). Negative points (Taboo, Avada Kedavra) play a groan and a green toast.
-Placement rule: buttons and links say what they do in plain words ("Open the file", "Download CV"); the spell
+Placement rule: buttons and links say what they do in plain words ("Open the file", "Open CV"); the spell
 name lives in `data-spell` and floats above as a handwritten whisper on hover/focus, then plays when cast.
 Section headings carry the wizarding names; body text stays plain professional English.
 Sound: a synthesised chime (`src/magic/sound.ts`) only when house points are awarded; mute toggle in the nav.
-Owl post (`src/magic/Owls.tsx`, copy in `site.ts` `owlNotes`): one note per section, ≥ 18 s apart, ≤ 4 per visit,
-8 s each, "No more owls" switches them off. Keep them tips or light flavour, never nags.
+Owl post (`src/magic/Owls.tsx`, copy in `site.ts` `owlNotes`): one note every 20 s (current section first, else next unread),
+8 s each, no repeats per session; replies to typed eggs come at once. "No more owls" switches them off.
 3D background: candles, embers, crest, spellbook, flying winged keys (`FlyingKeys.tsx`). No logos or flags.
 Azkaban (section `#azkaban`, copy in `site.ts` `azkaban`): reversed families as prisoners, the "sentence" is the
 detection content. Dementors (`Dementors.tsx`, schedule in `state.ts` `dementors`) visit anywhere: first ~35 s after
@@ -106,10 +106,15 @@ gets an envelope (wax seal, green-ink address) that opens; the letter writes its
 "Alohomora" enters the site (+10). Click the letter to finish writing; "Skip the letter" for people in a hurry.
 Not shown in Muggle mode; instant with reduced motion. Dementors and owls wait until the letter is closed.
 
-## Unpublished work
-`status: 'brewing'` → stamped "Brewing", links sealed with wax, case page shows the cauldron + quill.
-Upcoming posts appear in the Prophet under the Invisibility Cloak. When something publishes, flip status,
-fill hrefs, move it out of `prophet.upcoming` (skill `case-file-entry`).
+## Unpublished work (every link works: no dead or sealed links)
+`status: 'brewing'` → stamped "Brewing", case page shows the cauldron + quill. Its links point at real
+coming-soon targets with `soon: true` (rendered with a small "coming soon" tag):
+- blog posts at their FINAL address, `hidden: true` in the blog (`_posts/2026-10-25-<Slug>.md`): KryBit-Ransomware-Analysis,
+  AntiDot-Android-Banker-Analysis, Lumma-CTI-Infrastructure, Egypt-Phishing-Infrastructure, Ransomware-Brief-Egypt-GCC,
+  AI-Assisted-Malware-Lab. Publishing = overwrite that same file with the real post and drop `hidden: true`.
+- repos with a coming-soon README: krybit-ransomware-analysis, antidot-android-banker, egypt-phishing-monitor.
+Upcoming posts appear in the Prophet under the Invisibility Cloak (linked). When something publishes: flip status
+to 'published', drop `soon`, move it from `prophet.upcoming` to `prophet.editions` (skill `case-file-entry`).
 
 ## Commands
 `npm run dev` (port 5173; `.claude/launch.json` in the parent workspace starts it as `portfolio`) ·

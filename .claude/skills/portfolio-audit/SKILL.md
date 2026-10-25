@@ -35,5 +35,5 @@ Every non-empty href returns (use the built-in browser, not curl on third-party 
 
 ## 8. Privacy & IP
 Grep `src/` and `public/` for: phone patterns (`\+?20\s?1\d{9}`, `\b01\d{9}\b`), `C:\\`, `D:\\lab`, `DESKTOP-`,
-hwid-like hex, raw domains/IPs in page text. The CV PDF (`public/Nader_Ayman_Resume.pdf`) contains the phone
-number by the analyst's choice; mention it once, and switch `links.resume` when the Drive link exists. No official HP logos/fonts/quotes; footer disclaimer present.
+hwid-like hex, raw domains/IPs in page text. The CV is a Google Drive link (`links.resume`); it contains the phone
+number by the analyst's choice; check the link opens (Drive sharing must be "anyone with the link"). No official HP logos/fonts/quotes; footer disclaimer present.

@@ -8,6 +8,8 @@ description: Add a new project/case to the Grimoire portfolio or update one (sta
 1. Read the source of truth first: the published blog post (`../artfuldodger10.github.io/_posts/`) and the repo README.
    Do **not** pull claims from lab case folders, chats or drafts — only what is published.
 2. Edit `src/content/site.ts` only (the CV PDF in `public/` is the other source the analyst may update):
+   - Brewing work already links to a hidden coming-soon post at its final URL and a placeholder repo; when the real
+     post is ready, overwrite that post file (same name) and remove `hidden: true`, then drop `soon` here.
    - `caseFiles` entry: `id`, `title`, `codename` (a short wizarding name, original, 2–4 words),
      `status`, `date` (Mon YYYY), `chain` (3–5 stages), `summary` (≤ 2 sentences), `outcomes` (2–3),
      `tools`, `links` (empty `href` while sealed), optional one-line `note`.

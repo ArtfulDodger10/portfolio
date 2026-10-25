@@ -1579,3 +1579,30 @@ kbd {
     margin-left: 0;
   }
 }
+
+/* ---- coming-soon links: they work, and say so ---- */
+.link-soon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.soon-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--hand);
+  font-size: 0.95rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-dim);
+}
+/* the cloaked Prophet editions are links now */
+a.cloaked {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+a.cloaked:hover .cloaked-hint {
+  text-decoration: underline;
+}

@@ -82,7 +82,7 @@ export function Hero() {
             Open the case files
           </a>
           <a className="btn btn-ghost" href={links.resume} onClick={summonCv} data-spell="Accio">
-            Download CV
+            Open CV
           </a>
         </div>
       </div>
@@ -359,8 +359,8 @@ export function Prophet() {
         </div>
         <p className="prophet-next">Next editions</p>
         <div className="cloaks">
-          {prophet.upcoming.map((t) => (
-            <InvisibilityCloak key={t} title={t} />
+          {prophet.upcoming.map((u) => (
+            <InvisibilityCloak key={u.href} title={u.title} href={u.href} />
           ))}
         </div>
         <a className="btn btn-gold prophet-cta" href={links.blog} target="_blank" rel="noopener noreferrer">
@@ -455,7 +455,7 @@ export function OwlPost() {
           ))}
         </ul>
         <a className="btn btn-gold" href={links.resume} onClick={summonCv} data-spell="Accio">
-          Download CV (PDF)
+          Open CV
         </a>
       </div>
       <footer className="footer" ref={footer}>
